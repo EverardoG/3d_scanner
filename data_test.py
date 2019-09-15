@@ -39,6 +39,10 @@ for i in range(len(pan_angleList)):
     # z = math.sqrt(x**2 + y**2) * math.sin(3.14/180.0 * tilt_angleList[i]) *1.0/2.0
     z = cm * math.sin(3.14/180.0 *  pan_angleList[i]) * math.cos( 3.14/180.0 * tilt_angleList[i] ) + z_offset
 
+    # z = cm * math.sin(3.14/180.0 *  pan_angleList[i]) * math.sin( 3.14/180.0 * tilt_angleList[i] )
+    # x = cm * math.cos(3.14/180.0 *  pan_angleList[i])
+    # y = cm * math.sin(3.14/180.0 *  pan_angleList[i]) * math.cos( 3.14/180.0 * tilt_angleList[i] ) + z_offset
+
     xs.append( x )
     ys.append( y )
     zs.append( z )
@@ -68,9 +72,9 @@ ax1 = fig.add_subplot(111, projection = "3d")
 
 
 ax1.plot(xs,ys,zs, ".")
-ax1.set_xlim(-50, 50)
-ax1.set_ylim(0, 30)
-ax1.set_zlim(-10,30)
+ax1.set_xlim(0, 20)
+ax1.set_ylim(-20, 20)
+ax1.set_zlim(0,30)
 ax1.set_xlabel("x")
 ax1.set_ylabel("y")
 ax1.set_zlabel("z")
