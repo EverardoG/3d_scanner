@@ -9,8 +9,13 @@ Servo tiltServo;
 int pan_pos = 0;
 int tilt_pos = 0;
 
+//offsets
+int pos_offset = 0;
+int tilt_offset = 90;
+
 // ir sensor info
 int sensor_value = 0;
+int cm = 0;
 
 // filter variables
 int cm_lp = 0;
@@ -29,29 +34,36 @@ void setup() {
 
 void loop() {
 
+  Serial.println("START");
   // startup sequence
-  panServo.write(0);
+  panServo.write(60);
   delay(1000);
 
   // iterate through pan positions
-  for (pan_pos = 0; pan_pos <= 180; pan_pos += 5) {
+  for (pan_pos = 76; pan_pos <= 100; pan_pos += 1) {
 
     // set pan servo
     panServo.write(pan_pos);
+    delay(50);
+
+    tiltServo.write(90);
+    delay(500);
 
     // iterate through tilt positions
-    for (tilt_pos = 60; tilt_pos <= 120; tilt_pos += 1) {
+    for (tilt_pos = 90; tilt_pos <= 150; tilt_pos += 1) {
 
       // set tilt servo
       tiltServo.write(tilt_pos);
-      delay(15);
-      
+      delay(50);
+
       // get the sensor value
       sensor_value = analogRead(A5);
       sensor_value_lp = lowpassFilter.input(sensor_value);
+      cm = valueToDistance(sensor_value);
       cm_lp = valueToDistance(sensor_value_lp);
 
-      Serial.print(pan_pos); Serial.print(" : "); Serial.print(tilt_pos); Serial.print(" : "); Serial.println(cm_lp);
+      Serial.print(pan_pos); Serial.print(" : "); Serial.print(tilt_pos - tilt_offset); 
+      Serial.print(" : ");   Serial.print(cm);    Serial.print(" : "); Serial.println(cm_lp);
     }
 
   }
