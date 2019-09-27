@@ -34,8 +34,8 @@ while keep_scanning:
 
         pan_angleList.append(int(pan_angle))
         tilt_angleList.append(int(tilt_angle))
-        magList.append(int(magnitude))
-        magListFiltered.append(int(mag_filtered))
+        magList.append(float(magnitude))
+        magListFiltered.append(float(mag_filtered))
 
     # stop scanning
     elif scan_started and "START" in lineOfData:
@@ -49,5 +49,5 @@ cms_ = np.asarray(magList)
 cms_f = np.asarray(magListFiltered)
 
 # add a time stamp to the data and save it
-timestamp = "_".join(str(dt.now().split()))
+timestamp = "_".join(str(dt.now()).split())
 np.savez('data_' + timestamp + '.npz', p = pans_, t = tilts_, c = cms_, f = cms_f)
